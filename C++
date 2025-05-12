@@ -1,0 +1,38 @@
+# C++
+
+class Solution {
+public:
+    int longestConsecutive(std::vector<int>& nums) {
+        int longestLength = 0;
+        std::unordered_map<int, bool> map;
+
+        for (int num : nums) {
+            map[num] = false;
+        }
+
+        for (int num : nums) {
+            if (map[num]) continue; // Skip if already visited
+
+            int currentLength = 1;
+            map[num] = true;
+
+            int next = num + 1;
+            while (map.find(next) != map.end() && !map[next]) {
+                currentLength++;
+                map[next] = true;
+                next++;
+            }
+
+            int prev = num - 1;
+            while (map.find(prev) != map.end() && !map[prev]) {
+                currentLength++;
+                map[prev] = true;
+                prev--;
+            }
+
+            longestLength = std::max(longestLength, currentLength);
+        }
+
+        return longestLength;
+    }
+};
